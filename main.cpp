@@ -1,42 +1,34 @@
-#pragma hdrstop
-#pragma argsused
-
-#ifdef _WIN32
-#include <tchar.h>
-#else
-  typedef char _TCHAR;
-  #define _tmain main
-#endif
  /*
- Date:
- Description:
- Source:
+ Date:	05/01/17
+ Description: example program how to use and implement the GetPassword.dll
+ 	      It will display " * " as you tpe and it stores the actual chars into the array
+ Source: Daryl Newell DMA Electronics
  */
 
 #include <stdio.h>
 #include <conio.h>	// for clrscr() function
-#include <iostream>
 
-  using namespace std;
+//-- Function declaration
+//-- accepts a char arrray "char myArray[size], int size" int size is the max size you want the array to be. The function will not
+//-- allow any more key strokes than int size (including backspace).
+//-- it returns a char ponter to the first address in the array.
+//-- conio.h header may be needed
 
 extern "C" char* __declspec(dllexport) __stdcall GetPassword(char*,int);
 
- int _tmain(int argc, _TCHAR* argv[])
+ int main(int argc, char* argv[])
 {
-	char pword[20];
-	char *pw = pword;
-	char *tmp = pword;
+	const int size = 20; 
+	char pword[size];				//--declare a char array that will hold your passoword
+	char copyPword[size]; 
+	char *pMyPassword = copyPword; 
 
-	int a = 6;
+   printf("Enter Password: ");				//-- prompt user for there password
+   pMyPassword = GetPassword(pword, size);		
 
+   strcpy(copyPword,pMyPassword);			//--copy the returned pointer to the 
 
-
-   printf("Enter Password: ");
-   pw = GetPassword(pword, 20);
-
-   strcpy(pword,pw);
-
-   printf("\nYou Entered: ");
+   printf("\nYou Entered: ");				//-- display what you entered
    puts(pword);
 
 
